@@ -2,8 +2,13 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
+#include <iostream>
+#include <fstream>
 
-double min = INT_MAX;
+//#define INT_MAX 100
+using namespace std;
+
+double min_path; 
 
 double getDis(int current, double dis, double**a, bool*visited,int visited_num, int*returnpath ,int*shortpath,int n){
 
@@ -11,11 +16,11 @@ double getDis(int current, double dis, double**a, bool*visited,int visited_num, 
     
     if(visited_num == n){
         returnpath[visited_num] = 0;
-        if(dis+a[current][0] < min){
+        if(dis+a[current][0] < min_path){
             for(int i=0;i<=n;i++){
                 shortpath[i]=returnpath[i];
             }
-            min = dis+a[current][0];
+            min_path = dis+a[current][0];
         }
     }
     
@@ -32,14 +37,15 @@ double getDis(int current, double dis, double**a, bool*visited,int visited_num, 
 }
 
 int main(){
-    int n;
+    int n=11, city;
     double **a;
     double **pos;
     bool *visited;
     int current, visited_num;
     int *path,*shortpath;
     //scanf("%d", &n);
-    n=11;
+    FILE* input_file;
+
     a = (double**)malloc(sizeof(double*) * n);
     pos = (double**)malloc(sizeof(double*) * n);
     visited = (bool*)malloc(sizeof(bool)*n);
@@ -50,11 +56,14 @@ int main(){
         pos[i] = (double*)malloc(sizeof(double) * 2);
         visited[i] = false;
     }
-    
+    input_file = fopen("readfile.txt","r+");
     for(int i=0;i<n;i++){
-        int city;
-        scanf("%d", &city);
-        scanf("%lf%lf", pos[city-1]+0, pos[city-1]+1);
+        //int city;
+        fscanf(input_file,"%d", &city); //cout<<city<<endl;
+        fscanf(input_file,"%lf", &pos[city-1][0]); //cout<<pos[city-1][0]<<endl;
+        fscanf(input_file,"%lf", &pos[city-1][1]); //cout<<pos[city-1][1]<<endl;
+        //scanf("%lf%lf", pos[city-1]+0, pos[city-1]+1);
+        //input_file>>city>>pos[city-1]+0>>pos[city-1]+1;
     }
     
     
@@ -70,7 +79,7 @@ int main(){
     visited[0] = true;
     path[0]=0;
     getDis(current, 0, a, visited, visited_num, path,shortpath,n);
-    printf("Dis = %lf, path = ",min);
+    printf("Dis = %lf, path = ",min_path);
     for(int i=0;i<=n;i++){
         printf("%d ",shortpath[i]+1);
     }
