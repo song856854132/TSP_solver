@@ -1,29 +1,68 @@
-#include <iostream>
+#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <math.h>
+#include <algorithm>
 #include "tsp.h"
-int** Brutal_Algorithm::create_array(int city_num)
-{   // dynamic @D array generate 
-    int** a = new int*[city_num+1];
-    for(int i = 0; i < city_num+1; ++i)
-        a[i] = new int[city_num+1];
-
-    // list all possible path into array
-
-    return a;
+TSP_solution::TSP_solution(/* args */)
+{
+    city_num = 0;
 }
 
-void Brutal_Algorithm::add_node(struct tsp_node node)
-{   // adding node to the ring
-    if (/* condition */) // non node in the ring
-    {
-        node_head = node_tail = 
-    }
-    else                // one or more nodes in the ring
-    {
-        
-    }
-    
-    // generate a all-connecting graph
+TSP_solution::~TSP_solution()
+{
+}
 
+void TSP_solution::add_node(tsp_node tmpnode, int num)
+{
+    node[num].x = tmpnode.x;
+    node[num].y = tmpnode.y;
+    city_num++;
+}
+
+void TSP_solution::create_array()
+{
+    tsp_edge** arr = new tsp_edge*[city_num];
+    int** dp_tree = new int*[city_num*city_num];    
+    for(int i=0; i<city_num; i++)
+        arr[i] = new tsp_edge[city_num];
+    for(int j=0; j<city_num*city_num; j++)
+        dp_tree[j] = new int[city_num];
+    VISIT_ALL = (1<<city_num)-1;
+    for(int i=0; i<city_num; i++)
+        for(int j=0; j<city_num; j++)
+        {
+            arr[i][j].dst = sqrt(pow((node[i].x - node[j].x),2)+pow((node[i].y - node[j].y),2));
+            arr[i][j].last_node = node[i];
+            arr[i][j].next_node = node[j];
+        }
+    
+    matric = arr;
+    tree = dp_tree;
+}
+// void TSP_solution::brutal_force()
+// {
+    
+// }
+void TSP_solution::dynamic_program(int mask, int pos)
+{
+    if(mask==VISIT_ALL)
+        return;
+    int dst = __INT_MAX__, chosenCity;
+
+    for(int city=0; city<city_num; city++)
+    {
+        if((mask&(1<<city))==0)
+        {
+            int newdst = arr[pos][city] + dp[mask|(i<<city)][city];
+            if(newdst < dst)
+            {
+                dst = newdst;
+                chosenCity = city;
+            }
+        }
+    }
+    cout<<chosenCity<<"-->";
+    dynamic_program(mask|(i<<chosenCity),chosenCity);
     
 }

@@ -1,22 +1,22 @@
 #ifndef __TSP_H__
 #define __TSP_H__
 
+#define MAX_CITY 100
 struct tsp_node
 {
     int node_num;
     int x;
     int y; 
-    struct tsp_node* next_node;
+    struct tsp_node *next;
 };
 
 struct tsp_edge
 {
-    int last_node;
-    int next_node;
+    tsp_node last_node;
+    tsp_node next_node;
     int dst;
-    struct tsp_edge* next_edge;
 };
-
+/*
 class Brutal_Algorithm
 {
     struct tsp_node *node_head;
@@ -31,5 +31,25 @@ public:
     void add_node(struct tsp_node node);
     ~Brutal_Algorithm();
 };
+*/
+
+class TSP_solution
+{
+private:
+    tsp_node node[MAX_CITY];
+    tsp_edge** matric;
+    int **tree;
+    int city_num;
+    int VISIT_ALL;
+
+public:
+    void add_node(tsp_node tmp, int num);
+    void create_array();
+    //void brutal_force();
+    void dynamic_program(int mask, int pos);
+    TSP_solution(/* args */);
+    ~TSP_solution();
+};
+
 
 #endif
