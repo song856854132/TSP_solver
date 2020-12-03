@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
@@ -54,7 +55,7 @@ void TSP_solution::dynamic_program(int mask, int pos)
     {
         if((mask&(1<<city))==0)
         {
-            int newdst = arr[pos][city] + dp[mask|(i<<city)][city];
+            int newdst = matric[pos][city].dst + tree[mask|(1<<city)][city];
             if(newdst < dst)
             {
                 dst = newdst;
@@ -62,7 +63,7 @@ void TSP_solution::dynamic_program(int mask, int pos)
             }
         }
     }
-    cout<<chosenCity<<"-->";
-    dynamic_program(mask|(i<<chosenCity),chosenCity);
+    std::cout<<chosenCity<<"-->";
+    dynamic_program(mask|(1<<chosenCity),chosenCity);
     
 }

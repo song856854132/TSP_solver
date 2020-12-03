@@ -20,14 +20,10 @@ int main()
     while (input_file>>city>>x>>y)
     {   // reading from file and push into ring: node1->node2->node3->......->node1 
         struct tsp_node tmp_node = {city,x,y};
-        TSP.add_node(tmp_node);
+        TSP.add_node(tmp_node,city);
         city_num++;
     }
     TSP.create_array();
-    TSP.DP(1,0);
-    // print the path
-    while(head->next)
-    {
-        printf();
-    }
+    TSP.dynamic_program(1,0);
+    
 }
