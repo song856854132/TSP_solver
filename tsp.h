@@ -4,7 +4,7 @@
 #define MAX_CITY 100
 struct tsp_node
 {
-    int node_num;
+    char* node_name;
     int x;
     int y; 
     struct tsp_node *next;
@@ -14,7 +14,7 @@ struct tsp_edge
 {
     tsp_node last_node;
     tsp_node next_node;
-    int dst;
+    double dst;
 };
 /*
 class Brutal_Algorithm
@@ -38,15 +38,18 @@ class TSP_solution
 private:
     tsp_node node[MAX_CITY];
     tsp_edge** matric;
-    int **tree;
+    double **tree;
     int city_num;
     int VISIT_ALL;
+    std::vector<int> **path;
 
 public:
-    void add_node(tsp_node tmp, int num);
+    void add_node(tsp_node tmp);
     void create_array();
     //void brutal_force();
-    void dynamic_program(int mask, int pos);
+    void dynamic_program();
+    void get_path();
+    void test();
     TSP_solution(/* args */);
     ~TSP_solution();
 };
